@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WordHandler {
-    public static String wordSelector() {
+    private String wordSelector() {
         File gameWords = new File("GameWordTuple.txt");
         String randomWord = "";
         List<String> words = new ArrayList<>();
@@ -17,6 +17,7 @@ public class WordHandler {
                 words.add(wordScanner.nextLine());
             }
             randomWord = words.get(rand.nextInt(words.size()));
+            wordScanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден");
         }
