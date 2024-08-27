@@ -1,32 +1,40 @@
 package com.skillnez.hangman.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-    private static final WordHandler wordHandler = new WordHandler();
-    private static final Scanner inputScanner = new Scanner(System.in); // не делай final
-    private static final List<Character> UsedLetters = new ArrayList<>();
-    private static String hiddenWord;
-    private static char inputCharBuffer;
-    private static String inputSting;
+    private final int MAX_USER_INPUT_LENGTH = 1;
 
-    public static void startGame() {
+    private WordHandler wordHandler = new WordHandler();
+    private Scanner inputScanner = new Scanner(System.in); // не делай final
+    private List<Character> UsedLetters = new ArrayList<>();
+    private String hiddenWord;
+    private char inputCharBuffer;
+    private String inputSting;
+    private File gameDictionary;
+
+    public Game (String fileName) {
+        gameDictionary = new File(fileName);
+    }
+
+    public void startGame() {
         System.out.println("Добро пожаловать игру!");
         do { //пофиксь зацикленность после прописывания условий игры
             System.out.println("Введите [да] чтобы начать или [нет] чтобы выйти...");
             String userInput = inputScanner.nextLine();
             userInput = userInput.toLowerCase();
             if (userInput.equals("да")) {
-                hiddenWord = Arrays.toString(wordHandler.wordToChar());
-                System.out.println("Вам загадано слово: " + wordHandler.mask());
+                hiddenWord = Arrays.toString(wordHandler.wordToChar(gameDictionary));
+                System.out.println("Вам загадано слово: " + wordHandler.mask(gameDictionary));
                 System.out.println("Введите букву(кириллица, любой регистр): ");
 
                 //Реализовать проверку повторного ввода и потом вынести из этого метода в класс валидатор
                 inputSting = inputScanner.nextLine().toLowerCase();
-                if (inputSting.length() > 1 | inputSting.isEmpty()) {
+                if (inputSting.length() > MAX_USER_INPUT_LENGTH | inputSting.isEmpty()) {
                     System.out.println("Не вводите больше или меньше одной буквы за раз, повторите ввод...");
                     inputSting = inputScanner.nextLine().toLowerCase();
                 }

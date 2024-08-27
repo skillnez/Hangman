@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class WordHandler {
     private static String randomWord;
 
-    protected String wordSelector() {
-        File gameWords = new File("GameWordTuple.txt");
+
+    private String wordSelector(File fileToRead) {
         List<String> words = new ArrayList<>();
         try {
-            Scanner wordScanner = new Scanner(gameWords);
+            Scanner wordScanner = new Scanner(fileToRead);
             Random rand = new Random();
             while (wordScanner.hasNextLine()) {
                 words.add(wordScanner.nextLine());
@@ -27,12 +27,13 @@ public class WordHandler {
         return randomWord;
     }
 
-    protected char[] wordToChar() {
-        return wordSelector().toCharArray();
+    protected char[] wordToChar(File fileToRead) {
+        return wordSelector(fileToRead).toCharArray();
     }
 
-    protected String mask () {
-        return wordSelector().replaceAll("\\D", "*");
+    //Возможно придется переделать;
+    protected String mask (File fileToRead) {
+        return wordSelector(fileToRead).replaceAll("\\D", "*");
     }
 
 }
