@@ -1,3 +1,5 @@
+package com.skillnez.hangman.utils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,9 +8,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WordHandler {
-    private String wordSelector() {
+    private static String randomWord;
+
+    protected String wordSelector() {
         File gameWords = new File("GameWordTuple.txt");
-        String randomWord = "";
         List<String> words = new ArrayList<>();
         try {
             Scanner wordScanner = new Scanner(gameWords);
@@ -23,4 +26,13 @@ public class WordHandler {
         }
         return randomWord;
     }
+
+    protected char[] wordToChar() {
+        return wordSelector().toCharArray();
+    }
+
+    protected String mask () {
+        return wordSelector().replaceAll("\\D", "*");
+    }
+
 }
