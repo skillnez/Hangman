@@ -22,7 +22,9 @@ public class WordHandler {
             randomWord = words.get(rand.nextInt(words.size()));
             wordScanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден");
+            System.out.println("Файл не найден, проверьте название файла, либо установите название своего" +
+                    " файла по умолчанию 'wordDictionary.txt'");
+            System.out.println("Важно!!! файл должен быть в корневом каталоге программы");
         }
         return randomWord;
     }
