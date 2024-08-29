@@ -32,21 +32,19 @@ public class Game {
                 while (true) { //пофиксь зацикленность после прописывания условий игры и вынеси начало игрового цикла в отдельный метод
                     System.out.println("Вам загадано слово: " + maskedWord);
                     System.out.println("Введите букву(кириллица, любой регистр): ");
-                    //Реализовать проверку повторного ввода и потом вынести из этого метода в класс валидатор
                     userInput = InputValidator.makeInputPoint().toLowerCase();
                     inputCharBuffer = InputValidator.inputCheck(userInput, usedLetters);
                     usedLetters.add(inputCharBuffer);
                     System.out.println("вы ввели: " + usedLetters.getLast());
                     System.out.println("Ранее введено: " + usedLetters.toString());
                 }
-            }
-            else if (userInput.equals("нет")) {
+            } else if (userInput.equals("нет")) {
                 System.out.println("До встречи!");
                 break;
             } else {
                 System.out.println("Команда не распознана");
                 System.out.println("Введите [да] чтобы начать или [нет] чтобы выйти...");
             }
-        } //while (true);
+        }
     }
 }
