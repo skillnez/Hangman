@@ -12,6 +12,7 @@ public class Game {
     private Scanner inputScanner = new Scanner(System.in); // не делай final
     private List<Character> usedLetters = new ArrayList<>();
     private String hiddenWord;
+    private String maskedWord;
     private char inputCharBuffer;
     private String input;
     private File gameDictionary;
@@ -26,20 +27,14 @@ public class Game {
         while (true) {
             String userInput = InputValidator.makeInputPoint().toLowerCase();
             if (userInput.equals("да")) {
+                hiddenWord = Arrays.toString(wordHandler.wordToChar(gameDictionary));
+                maskedWord = wordHandler.mask(gameDictionary);
                 while (true) { //пофиксь зацикленность после прописывания условий игры и вынеси начало игрового цикла в отдельный метод
-                    hiddenWord = Arrays.toString(wordHandler.wordToChar(gameDictionary));
-                    System.out.println("Вам загадано слово: " + wordHandler.mask(gameDictionary));
+                    System.out.println("Вам загадано слово: " + maskedWord);
                     System.out.println("Введите букву(кириллица, любой регистр): ");
                     //Реализовать проверку повторного ввода и потом вынести из этого метода в класс валидатор
                     userInput = InputValidator.makeInputPoint().toLowerCase();
-                    switch (InputValidator.getValidatorState()) {
-                        case 0:
-                            inputCharBuffer = InputValidator.isEmpty(userInput).charAt(0);
-                            break;
-                        case 1:
-                            inputCharBuffer = InputValidator.letterQuantityCheck(userInput).charAt(0);
-                            break;
-                    }
+                    inputCharBuffer = InputValidator.inputCheck(userInput, usedLetters);
                     usedLetters.add(inputCharBuffer);
                     System.out.println("вы ввели: " + usedLetters.getLast());
                     System.out.println("Ранее введено: " + usedLetters.toString());

@@ -4,29 +4,49 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InputValidator {
-private static int VALIDATOR_STATE = 0;
 
-    public static int getValidatorState() {
-        return VALIDATOR_STATE;
+    protected static Character inputCheck(String input, List<Character> usedLetters) {
+       while (true) {
+           if (input.length() > Constants.MAX_INPUT_LENGTH) {
+               System.out.println("Не вводите больше одной буквы за раз, повторите ввод...");
+               input = makeInputPoint();
+           } else if (input.isEmpty()) {
+               System.out.println("Вы ничего не ввели, введите 1 букву русского алфавита...");
+               input = makeInputPoint();
+           }else if (!Character.isLetter(input.charAt(0))) {
+               System.out.println("Недопустимый символ, введите 1 русскую букву...");
+               input = makeInputPoint();
+           } else if (Character.UnicodeBlock.of(input.charAt(0)) != Character.UnicodeBlock.CYRILLIC) {
+               System.out.println("Допускается только кириллица, введите букву...");
+               input = makeInputPoint();
+           } else if (usedLetters.contains(input.charAt(0))) {
+               System.out.println("Такая буква ранее вводилась, введите другую букву...");
+               input = makeInputPoint();
+           } else if (input.charAt(0) == '\0' || Character.isWhitespace(input.charAt(0))) {
+               System.out.println("Вы ничего не ввели, введите букву...");
+               input = makeInputPoint();
+           } else {
+               return input.charAt(0);
+           }
+       }
     }
 
-    protected static String letterQuantityCheck(String input) {
-        while (input.length() > Constants.MAX_USER_INPUT_LENGTH) {
-            System.out.println("Не вводите больше или меньше одной буквы за раз, повторите ввод...");
-            input = makeInputPoint();
-            VALIDATOR_STATE = 0;
-        }
-        return input;
-    }
+//    private static String takeLetter() {
+//        while (true) {
+//            Scanner in = new Scanner(System.in);
+//            String letter = in.next().toLowerCase();
+//            if (letter.length() != 1 || !letter.matches("[а-я]")) {
+//                System.out.print(" Введите одну букву на кириллице: ");
+//            } else if (wrongLetters.contains(letter)) {
+//                System.out.print(" Вы уже вводили эту букву, ее нет в слове, введите другую букву: ");
+//            } else if (rightLetters.contains(letter)) {
+//                System.out.print(" Вы уже вводили эту букву, она есть в слове, введите другую букву: ");
+//            } else {
+//                return letter;
+//            }
+//        }
+//    }
 
-    protected static String isEmpty(String input) {
-        while (input.isEmpty()) {
-            System.out.println("Вы ничего не ввели, введите букву...");
-            input = makeInputPoint();
-            VALIDATOR_STATE = 1;
-        }
-        return input;
-    }
 
     protected static void isLetterUsed(List<Character> letters, char inputChar) {
         while (letters.contains(inputChar)) {
