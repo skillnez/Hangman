@@ -2,16 +2,13 @@ package com.skillnez.hangman.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class WordHandler {
     private static String randomWord;
 
 
-    private String wordSelector(File fileToRead) {
+    protected String wordSelector(File fileToRead) {
         List<String> words = new ArrayList<>();
         try {
             Scanner wordScanner = new Scanner(fileToRead);
@@ -29,13 +26,13 @@ public class WordHandler {
         return randomWord;
     }
 
-    protected char[] wordToChar(File fileToRead) {
-        return wordSelector(fileToRead).toCharArray();
-    }
-
     //Возможно придется переделать;
-    protected String mask (File fileToRead) {
-        return wordSelector(fileToRead).replaceAll("\\D", "*");
+    protected char[] mask (char[] charArray) {
+        char[] mask = new char[charArray.length];
+        for (int i = 0; i < charArray.length; i++) {
+            mask[i] = '*';
+        }
+        return mask;
     }
 
 }
