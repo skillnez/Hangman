@@ -2,7 +2,6 @@ package com.skillnez.hangman.utils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,10 +64,10 @@ public class Game {
 
     private boolean hangmanEnd(int gameEndState, List<Character> succeedLetters, char[] guessedWord) {
         if (gameEndState >= Constants.MAX_FAULTS) {
-            System.out.println("Вы проиграли, загаданное слово: " + Arrays.toString(guessedWord).replaceAll("[\\s,]+", ""));
+            System.out.println("Вы проиграли, загаданное слово: " + wordPicker.charToString(guessedWord));
             return false;
         } else if (succeedLetters.size() == guessedWord.length) {
-            System.out.println("Вы отгадали слово" + Arrays.toString(guessedWord).replaceAll("[\\s,]+", ""));
+            System.out.println("Вы отгадали слово" + wordPicker.charToString(guessedWord));
             return false;
         } else {
             return true;
