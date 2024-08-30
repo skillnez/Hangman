@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class WordHandler {
+public class WordPicker {
     private static String randomWord;
 
 
@@ -26,13 +26,20 @@ public class WordHandler {
         return randomWord;
     }
 
-    //Возможно придется переделать;
     protected char[] mask (char[] charArray) {
         char[] mask = new char[charArray.length];
         for (int i = 0; i < charArray.length; i++) {
             mask[i] = '*';
         }
         return mask;
+    }
+
+    protected String charToString(char[] charArray) {
+        return Arrays.toString(charArray).replaceAll("[\\s,]+", "");
+    }
+
+    protected String listToString(List<Character> list) {
+        return list.toString().replaceAll("[\\s]+", "");
     }
 
 }
