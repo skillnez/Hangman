@@ -6,24 +6,25 @@ import java.util.Scanner;
 public class InputValidator {
 
     protected static Character inputCheck(String input, List<Character> usedLetters) {
+        HangmanMessages validatorMessages = new HangmanMessages();
         while (true) {
             if (input.length() > Constants.MAX_INPUT_LENGTH) {
-                System.out.println("Не вводите больше одной буквы за раз, повторите ввод...");
+                validatorMessages.printMessage(HangmanMessages.MORE_THAN_1_LETTER_RESTRICTION);
                 input = makeInputPoint();
             } else if (input.isEmpty()) {
-                System.out.println("Вы ничего не ввели, введите 1 букву русского алфавита...");
+                validatorMessages.printMessage(HangmanMessages.NOTHING_ENTERED);
                 input = makeInputPoint();
             } else if (!Character.isLetter(input.charAt(0))) {
-                System.out.println("Недопустимый символ, введите 1 русскую букву...");
+                validatorMessages.printMessage(HangmanMessages.RESTRICTED_LETTER);
                 input = makeInputPoint();
             } else if (Character.UnicodeBlock.of(input.charAt(0)) != Character.UnicodeBlock.CYRILLIC) {
-                System.out.println("Допускается только кириллица, введите букву...");
+                validatorMessages.printMessage(HangmanMessages.NON_CYRILLIC);
                 input = makeInputPoint();
             } else if (usedLetters.contains(input.charAt(0))) {
-                System.out.println("Такая буква ранее вводилась, введите другую букву...");
+                validatorMessages.printMessage(HangmanMessages.LETTER_ALREADY_USED);
                 input = makeInputPoint();
             } else if (input.charAt(0) == '\0' || Character.isWhitespace(input.charAt(0))) {
-                System.out.println("Вы ничего не ввели, введите букву...");
+                validatorMessages.printMessage(HangmanMessages.NOTHING_ENTERED);
                 input = makeInputPoint();
             } else {
                 return input.charAt(0);

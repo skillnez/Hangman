@@ -5,9 +5,9 @@ import java.util.List;
 
 public class GraphicStorage {
 
-    List<String> gallows = new ArrayList<>();
+    private List<String> gallows = new ArrayList<>();
 
-    GraphicStorage () {
+    public GraphicStorage () {
         gallows.add(
                 """ 
                 ---------
@@ -94,7 +94,7 @@ public class GraphicStorage {
         );
     }
 
-    public String getCondition(int index) {
+    protected String getCondition(int index) {
         return gallows.get(index);
     }
 }

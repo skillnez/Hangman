@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class WordPicker {
+    private HangmanMessages hM = new HangmanMessages();
     private static String randomWord;
 
 
@@ -19,9 +20,7 @@ public class WordPicker {
             randomWord = words.get(rand.nextInt(words.size()));
             wordScanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден, проверьте название файла, либо установите название своего" +
-                    " файла по умолчанию 'wordDictionary.txt'");
-            System.out.println("Важно!!! файл должен быть в корневом каталоге программы");
+            hM.printMessage(HangmanMessages.FILE_NOT_FOUND);
         }
         return randomWord;
     }
@@ -29,7 +28,7 @@ public class WordPicker {
     protected char[] mask (char[] charArray) {
         char[] mask = new char[charArray.length];
         for (int i = 0; i < charArray.length; i++) {
-            mask[i] = '*';
+            mask[i] = Constants.MASK_CHAR;
         }
         return mask;
     }
