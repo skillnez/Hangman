@@ -1,20 +1,14 @@
 package com.skillnez.hangman.utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
     private GraphicStorage gallowsState = new GraphicStorage();
-    private WordPicker wordPicker = new WordPicker();
+    private WordPickerFromFile wordPickerFromFile = new WordPickerFromFile("wordDictionary.txt");
     private List<Character> usedLetters = new ArrayList<>();
     private List<Character> guessedLetters = new ArrayList<>();
-    private File gameDictionary;
     private HangmanMessages gameMessages = new HangmanMessages();
-
-    public Game(String fileName) {
-        gameDictionary = new File(fileName);
-    }
 
     public void startGame() {
         gameMessages.printMessage(HangmanMessages.WELCOME);
@@ -26,11 +20,11 @@ public class Game {
             int gameFaults = 0;
             int turn = 1;
             if (userInput.equals(HangmanMessages.USER_YES)) {
-                char[] hiddenWord = wordPicker.wordSelector(gameDictionary).toCharArray();
-                char[] maskedWord = wordPicker.mask(hiddenWord);
+                char[] hiddenWord = wordPickerFromFile.wordSelector().toCharArray();
+                char[] maskedWord = wordPickerFromFile.mask(hiddenWord);
                 System.out.println(gallowsState.getCondition(gameFaults));
                 while (hangmanEnd(gameFaults, guessedLetters, hiddenWord)) {
-                    System.out.println("Вам загадано слово: " + wordPicker.charToString(maskedWord));
+                    System.out.println("Вам загадано слово: " + wordPickerFromFile.charToString(maskedWord));
                     gameMessages.printMessage(HangmanMessages.ENTER_ANY_LETTER);
                     userInput = InputValidator.makeInputPoint().toLowerCase();
                     Character inputCharBuffer = InputValidator.inputCheck(userInput, usedLetters);
@@ -40,7 +34,7 @@ public class Game {
                     succeedCheck(hiddenWord, maskedWord, guessedLetters, usedLetters);
                     gameFaults = faultCheck(guessedLetters, inputCharBuffer, gameFaults);
                     System.out.println(gallowsState.getCondition(gameFaults));
-                    System.out.println("Ранее введено: " + wordPicker.listToString(usedLetters));
+                    System.out.println("Ранее введено: " + wordPickerFromFile.listToString(usedLetters));
                     System.out.println("Ваш счет: " + guessedLetters.size() + " ошибок: " + gameFaults);
                     turn++;
                 }
@@ -64,11 +58,11 @@ public class Game {
 
     private boolean hangmanEnd(int gameEndState, List<Character> succeedLetters, char[] guessedWord) {
         if (gameEndState >= Constants.MAX_FAULTS) {
-            System.out.println("Вы проиграли, загаданное слово: " + wordPicker.charToString(guessedWord) + "\n" +
+            System.out.println("Вы проиграли, загаданное слово: " + wordPickerFromFile.charToString(guessedWord) + "\n" +
                     "Нажмите Enter чтобы вернуться в меню");
             return false;
         } else if (succeedLetters.size() == guessedWord.length) {
-            System.out.println("Вы отгадали слово" + wordPicker.charToString(guessedWord));
+            System.out.println("Вы отгадали слово" + wordPickerFromFile.charToString(guessedWord));
             return false;
         } else {
             return true;

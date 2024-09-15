@@ -2,8 +2,7 @@ package com.skillnez.hangman.utils;
 
 public class HangmanMessages implements Message{
 
-    public final static String FILE_NOT_FOUND = "Файл не найден, проверьте название файла, либо установите название своего" +
-            "файла по умолчанию 'wordDictionary.txt'" + "\n Важно!!! файл должен быть в корневом каталоге программы";
+    public final static String FILE_NOT_FOUND = "Файл не найден";
 
     public final static String MORE_THAN_1_LETTER_RESTRICTION = "Не вводите больше одной буквы за раз, повторите ввод...";
 
