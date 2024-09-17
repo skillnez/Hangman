@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class WordPickerFromFile {
-    private HangmanMessages hangmanMessages = new HangmanMessages();
+    private final HangmanMessages hangmanMessages = new HangmanMessages();
     private String randomWord;
     private String fileName;
 

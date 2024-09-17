@@ -18,7 +18,7 @@ public class HangmanMessages implements Message{
 
     public final static String MENU = "Введите [да] чтобы начать или [нет] чтобы выйти...";
 
-    public final static String ENTER_ANY_LETTER = "Введите букву(кириллица, любой регистр): ";
+    public final static String ENTER_ANY_LETTER = "Введите букву: ";
 
     public final static String USER_YES = "да";
 
