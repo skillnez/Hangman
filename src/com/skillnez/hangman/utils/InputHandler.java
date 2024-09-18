@@ -1,5 +1,7 @@
 package com.skillnez.hangman.utils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputHandler {
@@ -30,6 +32,22 @@ public class InputHandler {
             }
                 return input.charAt(0);
         }
+    }
+
+    protected static char[] mask (char[] charArray) {
+        char[] mask = new char[charArray.length];
+        for (int i = 0; i < charArray.length; i++) {
+            mask[i] = Constants.MASK_CHAR;
+        }
+        return mask;
+    }
+
+    protected static String listToString(List<Character> list) {
+        return list.toString().replaceAll("[\\s]+", "");
+    }
+
+    protected static String charToString(char[] charArray) {
+        return Arrays.toString(charArray).replaceAll("[\\s,]+", "");
     }
 
     protected static String makeInputPoint() {

@@ -5,18 +5,22 @@ import java.util.List;
 
 public class Game {
     private final GraphicStorage gallowsState = new GraphicStorage();
-    private final WordPickerFromFile wordPickerFromFile = new WordPickerFromFile("wordDictionary.txt");
+    private final FileWordParser fileWordParser = new FileWordParser("wordDictionry.txt");
     private final HangmanMessages gameMessages = new HangmanMessages();
     private List<Character> usedLetters = new ArrayList<>();
     private List<Character> guessedLetters = new ArrayList<>();
-    private char[] hiddenWord = wordPickerFromFile.wordSelector().toCharArray();
-    private char[] maskedWord = wordPickerFromFile.mask(hiddenWord);
+    private char[] hiddenWord = fileWordParser.parseRandomWord().toCharArray();
+    private char[] maskedWord = InputHandler.mask(hiddenWord);
     private char inputCharBuffer;
     private int gameFaults;
 
     public void start() {
         gameMessages.printMessage(HangmanMessages.WELCOME);
         gameMessages.printMessage(HangmanMessages.MENU);
+        gameLoop();
+    }
+
+    private void gameLoop() {
         while (true) {
             usedLetters.clear();
             guessedLetters.clear();
@@ -24,14 +28,16 @@ public class Game {
             gameFaults = 0;
             int turn = 1;
             if (userInput.equals(HangmanMessages.USER_YES)) {
+                System.out.println("===============| " + "Ход: " + turn + " |===============");
+                System.out.println(gallowsState.getCondition(gameFaults));
                 while (isTheGameContinues()) {
-                    System.out.println("===============| " + "Ход: " + turn + " |===============");
-                    System.out.println(gallowsState.getCondition(gameFaults));
-                    System.out.println("Вам загадано слово: " + wordPickerFromFile.charToString(maskedWord));
-                    System.out.println("Ранее введено: " + wordPickerFromFile.listToString(usedLetters));
+                    System.out.println("Вам загадано слово: " + InputHandler.charToString(maskedWord));
+                    System.out.println("Ранее введено: " + InputHandler.listToString(usedLetters));
                     collectLettersFromInput();
                     processCollectedLetters();
                     turn++;
+                    System.out.println("===============| " + "Ход: " + turn + " |===============");
+                    System.out.println(gallowsState.getCondition(gameFaults));
                 }
             } else if (userInput.equals(HangmanMessages.USER_NO)) {
                 System.out.println("До встречи!");
@@ -75,7 +81,7 @@ public class Game {
 
     private boolean isLetterUsed() {
         if (usedLetters.contains(inputCharBuffer)) {
-            System.out.println("Такая буква уже есть, введите другую...");
+            gameMessages.printMessage(HangmanMessages.LETTER_ALREADY_USED);
             return true;
         } else {
             return false;
@@ -88,12 +94,12 @@ public class Game {
 
     private boolean hangmanEndCondition() {
         if (gameFaults >= Constants.MAX_FAULTS) {
-            System.out.println("Вы проиграли, загаданное слово: " + wordPickerFromFile.charToString(hiddenWord) + "\n" +
+            System.out.println("Вы проиграли, загаданное слово: " + InputHandler.charToString(hiddenWord) + "\n" +
                     "Нажмите Enter чтобы вернуться в меню");
             return false;
         }
         if (guessedLetters.size() == hiddenWord.length) {
-            System.out.println("Вы отгадали слово" + wordPickerFromFile.charToString(hiddenWord));
+            System.out.println("Вы отгадали слово" + InputHandler.charToString(hiddenWord));
             return false;
         }
         return true;
