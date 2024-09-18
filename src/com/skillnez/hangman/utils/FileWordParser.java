@@ -6,15 +6,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class FileWordParser {
+    public String getRandomWord() {
+        return randomWord;
+    }
+
     private String randomWord;
     private final String fileName;
 
 
     public FileWordParser(String fileName) {
         this.fileName = fileName;
+        parseRandomWord();
     }
 
-    protected String parseRandomWord() {
+    protected void parseRandomWord() {
         try {
             InputStream resource = FileWordParser.class.getClassLoader().getResourceAsStream(fileName);
             assert resource != null;
@@ -26,6 +31,5 @@ public class FileWordParser {
             System.out.println("Файл не найден!");
             System.exit(0);
         }
-        return randomWord;
     }
 }

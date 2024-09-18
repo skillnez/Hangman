@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Game {
     private final GraphicStorage gallowsState = new GraphicStorage();
-    private final FileWordParser fileWordParser = new FileWordParser("wordDictionry.txt");
+    private FileWordParser fileWordParser = new FileWordParser("wordDictionary.txt");
     private final HangmanMessages gameMessages = new HangmanMessages();
-    private List<Character> usedLetters = new ArrayList<>();
-    private List<Character> guessedLetters = new ArrayList<>();
-    private char[] hiddenWord = fileWordParser.parseRandomWord().toCharArray();
+    private final List<Character> usedLetters = new ArrayList<>();
+    private final List<Character> guessedLetters = new ArrayList<>();
+    private char[] hiddenWord = fileWordParser.getRandomWord().toCharArray();
     private char[] maskedWord = InputHandler.mask(hiddenWord);
     private char inputCharBuffer;
     private int gameFaults;
@@ -92,14 +92,22 @@ public class Game {
         return hangmanEndCondition();
     }
 
+    private void reset() {
+        fileWordParser = new FileWordParser("wordDictionary.txt");
+        hiddenWord = fileWordParser.getRandomWord().toCharArray();
+        maskedWord = InputHandler.mask(hiddenWord);
+    }
+
     private boolean hangmanEndCondition() {
         if (gameFaults >= Constants.MAX_FAULTS) {
             System.out.println("Вы проиграли, загаданное слово: " + InputHandler.charToString(hiddenWord) + "\n" +
                     "Нажмите Enter чтобы вернуться в меню");
+            reset();
             return false;
         }
         if (guessedLetters.size() == hiddenWord.length) {
             System.out.println("Вы отгадали слово" + InputHandler.charToString(hiddenWord));
+            reset();
             return false;
         }
         return true;
